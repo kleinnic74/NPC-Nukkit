@@ -126,6 +126,7 @@ public class NPC extends PluginBase implements Listener{
                 .putBoolean("Transparent", false)
                 .putByteArray("Data", sender.getSkin().getData())
                 .putString("ModelId", sender.getSkin().getModel()));
+          nbt.putBoolean("ishuman", true);
           nbt.putString("Item", sender.getInventory().getItemInHand().getName());
           nbt.putString("Helmet", sender.getInventory().getHelmet().getName());
           nbt.putString("Chestplate", sender.getInventory().getChestplate().getName());
@@ -186,7 +187,7 @@ public class NPC extends PluginBase implements Listener{
                         Level level = player.getLevel();
                         int eid = Integer.parseInt(args[1]);
                         Entity enti = level.getEntity(eid);
-                        if(enti instanceof NPC_Human || enti instanceof NPC_Entity){
+                        if(enti instanceof NPC_Human || enti instanceof NPC_Entity || enti.namedTag.getBoolean("npc")){
                         String delimite = " ";       
                         String cmd; 
                         cmd = String.join(delimite, args);
@@ -209,7 +210,7 @@ public class NPC extends PluginBase implements Listener{
                         boolean isint = isInteger(args[1]);
                         if(!isint){ sender.sendMessage("§cusage: /npc listcmdd <ID>"); return true; }
                         Entity entity = player.getLevel().getEntity(Integer.parseInt(args[1]));
-                        if(entity instanceof NPC_Entity || entity instanceof NPC_Human){
+                        if(entity instanceof NPC_Entity || entity instanceof NPC_Human || entity.namedTag.getBoolean("npc")){
                         List<StringTag> cmddd = entity.namedTag.getList("Commands", StringTag.class).getAll();
                         player.sendMessage("§aCommands of §e" + entity.getName() + " ("+ entity.getId() + ")§a:");
                         for(StringTag cmdd : cmddd){
@@ -227,7 +228,7 @@ public class NPC extends PluginBase implements Listener{
                         if(args.length<3){ sender.sendMessage("§cusage: /npc delcmd <id> <cmd>"); return true; }                       
                         Level l = player.getLevel();
                         Entity en = l.getEntity(Integer.parseInt(args[1]));
-                        if(en instanceof NPC_Human || en instanceof NPC_Entity){
+                        if(en instanceof NPC_Human || en instanceof NPC_Entity || en.namedTag.getBoolean("npc")){
                         String delimite = " ";       
                         String cmd; 
                         cmd = String.join(delimite, args);
@@ -258,7 +259,7 @@ public class NPC extends PluginBase implements Listener{
                             case "item":
                             case "hand":
                             case "handitem":
-                                if(e instanceof NPC_Human){
+                                if(e instanceof NPC_Human || e.namedTag.getBoolean("ishuman")){
                                     NPC_Human nh = (NPC_Human) e;                                  
                                     nh.getInventory().setItemInHand(pl.getItemInHand());
                                     player.sendMessage("§aItem changed to §e" + pl.getItemInHand().getName());
@@ -269,7 +270,7 @@ public class NPC extends PluginBase implements Listener{
                                     return true;
                                 }                              
                             case "armor":
-                                if(e instanceof NPC_Human){
+                                if(e instanceof NPC_Human || e.namedTag.getBoolean("ishuman")){
                                     NPC_Human nh = (NPC_Human) e;                                  
                                     nh.getInventory().setHelmet(pl.getHelmet());
                                     player.sendMessage("§aHelmet changed to §e" + pl.getHelmet().getName());
@@ -293,7 +294,7 @@ public class NPC extends PluginBase implements Listener{
                                 boolean isf = isFloat(args[3]);
                                 if(!isf){player.sendMessage("§cusage. /npc edit <ID> scale <int>  §edefault is 1"); return true;}
                                 if(Float.parseFloat(args[3])>25){player.sendMessage("§cmax scale is 25"); return true;}
-                                if(e instanceof NPC_Human || e instanceof NPC_Entity){
+                                if(e instanceof NPC_Human || e instanceof NPC_Entity || e.namedTag.getBoolean("npc")){
                                     e.setScale(Float.parseFloat(args[3]));
                                     e.namedTag.putFloat("scale", Float.parseFloat(args[3]));
                                     player.sendMessage("§aScale changed to §e" + args[3]);
@@ -304,7 +305,7 @@ public class NPC extends PluginBase implements Listener{
                                  }
                             case "name":
                                 if(args.length<3){player.sendMessage("§cusage. /npc edit <ID> name <name>");return true;}
-                                if(e instanceof NPC_Human || e instanceof NPC_Entity){
+                                if(e instanceof NPC_Human || e instanceof NPC_Entity || e.namedTag.getBoolean("npc")){
                                     if(args.length!=3){
                                     String delimiter = " ";       
                                     name = String.join(delimiter, args);
@@ -336,7 +337,7 @@ public class NPC extends PluginBase implements Listener{
                             case "movehere":
                             case "gohere":
                                 if(args.length<2){player.sendMessage("§cusage. /npc edit <ID> tphere");return true;}
-                                if(e instanceof NPC_Human || e instanceof NPC_Entity){
+                                if(e instanceof NPC_Human || e instanceof NPC_Entity || e.namedTag.getBoolean("npc")){
                                     e.teleport(player);
                                     e.respawnToAll();
                                     player.sendMessage("§aEntity teleported");
@@ -366,7 +367,7 @@ public class NPC extends PluginBase implements Listener{
                         sender.sendMessage("§aadd a cmd: §e/npc addcmd <ID> <cmd>");
                         sender.sendMessage("§adelete a cmd: §e/npc delcmd <ID> <cmd>");
                         sender.sendMessage("§asee all cmd's: §e/npc listcmd <ID>");
-                        sender.sendMessage("§aedit a existing NPC: §e/npc edit <ID> <item|armor|scale|name|tphere> <scale int|name>");
+                        sender.sendMessage("§aedit an existing NPC: §e/npc edit <ID> <item|armor|scale|name|tphere> <scale int|name>");
                         sender.sendMessage("§aget the id: §e/npc getid");
                         sender.sendMessage("§aget a list from aviable entitys: §e/npc list");
                         sender.sendMessage("§adelete a NPC: §e/npc kill");
@@ -411,7 +412,7 @@ public class NPC extends PluginBase implements Listener{
        public void spawn(EntitySpawnEvent ev){
             Entity entity = ev.getEntity();
 
-            if(entity instanceof NPC_Entity || entity instanceof NPC_Human) {
+            if(entity instanceof NPC_Entity || entity instanceof NPC_Human || entity.namedTag.getBoolean("npc")) {
                    if(!"%k".equals(entity.namedTag.getString("NameTag"))){
                    entity.setNameTag(entity.namedTag.getString("NameTag"));
                    entity.setNameTagVisible(true);
