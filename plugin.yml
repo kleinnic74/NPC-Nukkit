@@ -1,0 +1,17 @@
+
+name: NPC
+version: "1.0.0"
+api: ["1.0.0"]
+author: GhostKilllaX
+description: npc
+main: com.GhostKilllaX.NPC.NPC
+
+commands:
+  npc:
+    description: Spawns a NPC
+    usage: "/npc"
+    permission: npc
+permissions:
+  npc:
+    description: "Allows the User to create a NPC"
+    default: OP
