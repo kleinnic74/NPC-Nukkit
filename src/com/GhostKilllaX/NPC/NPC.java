@@ -10,6 +10,7 @@ import cn.nukkit.nbt.tag.DoubleTag;
 import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.nbt.tag.FloatTag;
 import cn.nukkit.entity.Entity;
+import cn.nukkit.entity.EntityHuman;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.entity.EntitySpawnEvent;
 import cn.nukkit.event.EventPriority;
@@ -176,7 +177,7 @@ public class NPC extends PluginBase implements Listener{
                         sender.sendMessage("§aNPC spawned with the ID: " + ent.getId() + " and the name: " + ent.getName());
                         return true;
                     case "getid":
-                       String pn = player.getNameTag();
+                       String pn = player.getName();
                        id.add(pn);
                        player.sendMessage("§aID MODE  click an entity to get his ID");
                        return true;                                 
@@ -271,7 +272,7 @@ public class NPC extends PluginBase implements Listener{
                                 }                              
                             case "armor":
                                 if(e instanceof NPC_Human || e.namedTag.getBoolean("ishuman")){
-                                    NPC_Human nh = (NPC_Human) e;                                  
+                                    EntityHuman nh = (EntityHuman) e;                                  
                                     nh.getInventory().setHelmet(pl.getHelmet());
                                     player.sendMessage("§aHelmet changed to §e" + pl.getHelmet().getName());
                                     nh.namedTag.putString("Helmet", pl.getHelmet().getName());
@@ -288,7 +289,7 @@ public class NPC extends PluginBase implements Listener{
                                 } else {
                                     player.sendMessage("§cNo Human NPC found with that ID");
                                     return true;
-                                }  
+                                }
                             case "scale":
                                 if(args.length<4){player.sendMessage("§cusage. /npc edit <ID> scale <int>  §edefault is 1"); return true;}
                                 boolean isf = isFloat(args[3]);
@@ -362,7 +363,7 @@ public class NPC extends PluginBase implements Listener{
                        sender.sendMessage("§aviable entitys: " + entitys.toString());
                        return true;
                     default:
-                        sender.sendMessage("§3§lNPC HELP§r§e Plugin createt by GhostKilllaX");
+                        sender.sendMessage("§3§lNPC HELP§r§e Plugin created by GhostKilllaX");
                         sender.sendMessage("§aspawn a NPC: §e/npc spawn <entity> <name>");
                         sender.sendMessage("§aadd a cmd: §e/npc addcmd <ID> <cmd>");
                         sender.sendMessage("§adelete a cmd: §e/npc delcmd <ID> <cmd>");
@@ -425,5 +426,3 @@ public class NPC extends PluginBase implements Listener{
       public static boolean isFloat(String s){ boolean isValidFloat = false;try{ Float.parseFloat(s);isValidFloat = true;}catch (NumberFormatException ex) { } return isValidFloat;} 
          
 }
-
-  
