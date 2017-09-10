@@ -196,11 +196,11 @@ public class NPC extends PluginBase implements Listener{
                         cmd = cmd.replaceFirst(args[1], "");
                         StringTag st = new StringTag(cmd, cmd);
                         if(enti.namedTag.getList("Commands", StringTag.class).getAll().contains(st)){
-                            player.sendMessage("§aCommand already addet");
+                            player.sendMessage("§aCommand already added");
                             return true;
                         }
                         enti.namedTag.getList("Commands", StringTag.class).add(st);
-                        player.sendMessage("§aCommand addet");
+                        player.sendMessage("§aCommand added");
                         return true;
                         } else {
                             player.sendMessage("§cNo NPC found with that ID");
