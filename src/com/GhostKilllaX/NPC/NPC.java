@@ -38,7 +38,7 @@ public class NPC extends PluginBase implements Listener{
     @Override
     public void onEnable(){
                 getServer().getPluginManager().registerEvents(this, this);
-                this.getLogger().info("NPC Plugin aktiviert");
+                this.getLogger().info("NPC Plugin activated");
                 this.registerNPC();
        }
     
@@ -147,14 +147,14 @@ public class NPC extends PluginBase implements Listener{
          switch (command.getName().toLowerCase()) {
             case "npc":
                 if(args.length<1) {
-                    sender.sendMessage("§c/npc help");
+                    sender.sendMessage("§a>/npc help");
                     return true;
                 }
                 switch(args[0].toLowerCase()){
                     case "spawn":
-                        if(args.length<2){ sender.sendMessage("§cusage: /npc spawn <entity> <name>"); return true; }
+                        if(args.length<2){ sender.sendMessage("§a>usage: /npc spawn <entity> <name>"); return true; }
                         if(!entitys.contains(args[1])){
-                            sender.sendMessage("§cEntity §4" + args[1] + "§c is not supportet, with the command §e/npc list§c you see all supportet entitys");
+                            sender.sendMessage("§a>Entity §a" + args[1] + "§ac is not supported.");
                             return true;
                         }
                         String name;
