@@ -1,6 +1,6 @@
 
 name: NPC
-version: "1.0.0"
+version: "${project.version}"
 api: ["1.0.0"]
 author: GhostKilllaX
 description: npc
