@@ -523,10 +523,11 @@ public class NPC extends PluginBase implements Listener {
 		Player p = event.getPlayer();
 		for (Entity e : p.getLevel().getEntities()) {
 			if (e.getPosition().distance(p.getPosition()) < 10) {
-				Vector3f direction = e.getPosition().asVector3f().subtract(p.getPosition().asVector3f());
-				double pitch = Math.toDegrees(Math.atan2(direction.length(), direction.y) + Math.PI);
-				double yaw = Math.toDegrees(Math.atan2(direction.z, direction.x));
-				e.setRotation(yaw, pitch);
+				Behaviours.lookAt(e, p.getPositionVector());
+//				Vector3f direction = p.getPosition().asVector3f().subtract(e.getPosition().asVector3f());
+//				double pitch = Math.toDegrees(Math.atan2(direction.x, direction.y) + Math.PI);
+//				double yaw = Math.toDegrees(Math.atan2(direction.z, direction.x))+90.;
+//				e.setRotation(yaw, pitch);
 			}
 		}
 	}
