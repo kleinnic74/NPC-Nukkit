@@ -25,7 +25,7 @@ public class BehavioursTest {
 		}
 
 		@Override
-		public void setRotation(double pitch, double yaw) {
+		public void setRotation(double yaw, double pitch) {
 			this.pitch = pitch;
 			this.yaw = yaw;
 		}

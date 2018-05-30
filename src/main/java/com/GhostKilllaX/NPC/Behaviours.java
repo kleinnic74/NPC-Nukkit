@@ -10,6 +10,6 @@ public class Behaviours {
 		double r = direction.length();
 		double yaw = -Math.atan2(direction.x, direction.z)/Math.PI*180.;
 		double pitch = -Math.asin(direction.y/r)/Math.PI*180.;
-		e.setRotation(pitch, yaw);
+		e.setRotation(yaw, pitch);
 	}
 }
